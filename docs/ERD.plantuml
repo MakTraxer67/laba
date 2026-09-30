@@ -1,0 +1,67 @@
+@startuml MedTrack ERD
+hide circle
+skinparam linetype ortho
+
+entity user_roles {
+  * role_id : INTEGER <<PK>>
+  --
+  name : TEXT <<UQ>>
+}
+
+entity users {
+  * user_id : INTEGER <<PK>>
+  --
+  name : TEXT
+  surname : TEXT
+  patronymic : TEXT
+  login : TEXT <<UQ>>
+  password_hash : TEXT
+  role_id : INTEGER <<FK>>
+}
+
+entity medications {
+  * medication_id : INTEGER <<PK>>
+  --
+  name : TEXT
+  form : TEXT
+  manufacturer : TEXT
+}
+
+entity prescriptions {
+  * prescription_id : INTEGER <<PK>>
+  --
+  doctor_id : INTEGER <<FK>>
+  patient_id : INTEGER <<FK>>
+  medication_id : INTEGER <<FK>>
+  dosage : TEXT
+  schedule_times : TEXT
+  start_date : TEXT
+  end_date : TEXT
+  instructions : TEXT
+  active : INTEGER
+}
+
+entity intake_statuses {
+  * status_id : INTEGER <<PK>>
+  --
+  name : TEXT <<UQ>>
+}
+
+entity intake_records {
+  * intake_id : INTEGER <<PK>>
+  --
+  prescription_id : INTEGER <<FK>>
+  scheduled_at : TEXT
+  status_id : INTEGER <<FK>>
+  taken_at : TEXT
+  comment : TEXT
+}
+
+user_roles ||--o{ users
+users ||--o{ prescriptions : doctor
+users ||--o{ prescriptions : patient
+medications ||--o{ prescriptions
+prescriptions ||--o{ intake_records
+intake_statuses ||--o{ intake_records
+@enduml
+

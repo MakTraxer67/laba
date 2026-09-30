@@ -1,0 +1,50 @@
+@startuml MedTrack Use Case
+left to right direction
+
+actor "Пациент" as Patient
+actor "Врач" as Doctor
+actor "Администратор" as Admin
+
+rectangle "MedTrack" {
+  usecase "Регистрация пациента" as RegisterPatient
+  usecase "Вход в систему" as Login
+  usecase "Просмотр назначений" as ViewPrescriptions
+  usecase "Просмотр расписания" as ViewSchedule
+  usecase "Отметка результата приёма" as MarkIntake
+  usecase "Просмотр истории" as ViewHistory
+
+  usecase "Просмотр пациентов" as ViewPatients
+  usecase "Ведение препаратов" as ManageMedications
+  usecase "Создание назначения" as CreatePrescription
+  usecase "Завершение назначения" as ClosePrescription
+  usecase "Контроль соблюдения схемы" as ViewAdherence
+
+  usecase "Регистрация врача" as RegisterDoctor
+  usecase "Просмотр пользователей" as ViewUsers
+}
+
+Patient -- RegisterPatient
+Patient -- Login
+Patient -- ViewPrescriptions
+Patient -- ViewSchedule
+Patient -- MarkIntake
+Patient -- ViewHistory
+
+Doctor -- Login
+Doctor -- ViewPatients
+Doctor -- ManageMedications
+Doctor -- CreatePrescription
+Doctor -- ClosePrescription
+Doctor -- ViewAdherence
+
+Admin -- Login
+Admin -- RegisterDoctor
+Admin -- ViewUsers
+Admin -- ManageMedications
+
+CreatePrescription ..> ViewPatients : <<include>>
+CreatePrescription ..> ManageMedications : <<include>>
+MarkIntake ..> ViewSchedule : <<include>>
+ViewAdherence ..> ViewHistory : <<include>>
+@enduml
+
